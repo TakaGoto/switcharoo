@@ -24,7 +24,7 @@ test/
 
 ### installation
   1. add this repo under .vim/bundle
-  2. look at example usage below
+  2. look at example usage below. add something like to your .vimrc:
 
 ```
 nnoremap <leader>at :SwitchARoo<cr>
