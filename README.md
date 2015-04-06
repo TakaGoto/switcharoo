@@ -1,6 +1,6 @@
 # switcharoo
 
-switches between Coffescript source file to Coffeescript test file. It can also switch to the compiled Javascript file. For now, directory structure must look like below:
+switches between Coffescript source file to Coffeescript test file and Ruby source file and spec files. the Ruby switcharoo was inspired and copied by alt-ruby.vim. It can also switch to the compiled Javascript file. For now, directory structure must look like below:
 
 ```
 .tmp/
