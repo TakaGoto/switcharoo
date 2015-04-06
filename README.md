@@ -6,8 +6,8 @@ switches between Coffescript source file to Coffeescript test file. It can also 
 .tmp/
   scripts/
     hello/
-      world.coffee
-    hello.coffee
+      world.js
+    hello.js
 app/
   scripts/
     hello/
