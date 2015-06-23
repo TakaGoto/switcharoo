@@ -12,14 +12,6 @@ describe 'v:isTest'
   it 'returns true if the file directory is in coffee test path'
     Expect v:isTest("yo/test/blah.coffee") == 1
   end
-
-  it 'returns true if the file directory is in a ruby test path'
-    Expect v:isTest("spec/hello_spec.rb") == 1
-  end
-
-  it 'returns false if the file directory is not in ruby or coffee source path'
-    Expect v:isTest("blah/hello.rb") == 0
-  end
 end
 
 describe 'v:isSource'
@@ -33,14 +25,6 @@ describe 'v:isSource'
 
   it 'returns true if the file directory is in coffee source path'
     Expect v:isSource("yo/app/blah.coffee") == 1
-  end
-
-  it 'returns true if the file directory is a ruby source path'
-    Expect v:isSource("lib/hello/moto.rb") == 1
-  end
-
-  it 'returns false if the file directory is not a ruby or coffee source'
-    Expect v:isSource("hello/moto.rb") == 0
   end
 end
 
@@ -91,15 +75,5 @@ end
 describe 'v:SourceToJavascript'
   it 'returns javascript file from source file'
     Expect v:SourceToJavascript("app/scripts/hello/world.coffee") == ".tmp/scripts/hello/world.js"
-  end
-end
-
-describe 'v:ToggleTail'
-  it 'switches *_spec.rb to .rb'
-    Expect v:ToggleTail("blah_spec.rb") == "blah.rb"
-  end
-
-  it 'switches .rb to *_spec.rb'
-    Expect v:ToggleTail("blah.rb") == "blah_spec.rb"
   end
 end
