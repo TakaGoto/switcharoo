@@ -1,3 +1,33 @@
+function! switcharoo#Switch(cmd)
+  let current_file = @%
+  let switched_file = v:SwitchCoffeeFile(current_file)
+
+  if filereadable(switched_file)
+    execute a:cmd . " " . switched_file
+  else
+    let found_file = findfile(switched_file, "**/.")
+    if filereadable(found_file)
+      execute a:cmd . " " . found_file
+    else
+      echohl WarningMsg
+      echomsg "yo" . found_file
+      echohl None
+      echo ""
+      let v:warningmsg = found_file
+      "call s:warn("Unable to find expected alternate '".current_file."'")
+    endif
+  endif
+endfunction
+
+function! s:warn(str)
+  echohl WarningMsg
+  echomsg a:str
+  echohl None
+  " Sometimes required to flush output
+  echo ""
+  let v:warningmsg = a:str
+endfunction
+
 function! s:Sub(str,pat,rep)
   return substitute(a:str,'\v\C'.a:pat,a:rep,'')
 endfunction
@@ -9,15 +39,6 @@ endif
 if !exists('g:src_directory')
   let g:src_directory = 'app/scripts'
 endif
-
-function! switcharoo#Switch(cmd)
-  let current_file = @%
-  let switched_file = v:SwitchCoffeeFile(current_file)
-
-  if filereadable(switched_file)
-    execute a:cmd . " " . switched_file
-  end
-endfunction
 
 function! switcharoo#SwitchToJavascript()
   let current_file = @%
