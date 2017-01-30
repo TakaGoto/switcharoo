@@ -1,6 +1,6 @@
 function! switcharoo#Switch(cmd)
   let current_file = @%
-  let switched_file = v:SwitchCoffeeFile(current_file)
+  let switched_file = s:SwitchCoffeeFile(current_file)
 
   if filereadable(switched_file)
     execute a:cmd . " " . switched_file
@@ -43,12 +43,12 @@ endif
 function! switcharoo#SwitchToJavascript()
   let current_file = @%
 
-  if v:isSource(current_file)
-    let js_filename = v:SourceToJavascript(current_file)
+  if s:isSource(current_file)
+    let js_filename = s:SourceToJavascript(current_file)
   endif
 
-  if v:isTest(current_file)
-    let js_filename = v:TestToJavascript(current_file)
+  if s:isTest(current_file)
+    let js_filename = s:TestToJavascript(current_file)
   endif
 
   if filereadable(js_filename)
@@ -56,70 +56,70 @@ function! switcharoo#SwitchToJavascript()
   endif
 endfunction
 
-function! v:SwitchCoffeeFile(current_file)
-  if v:isSource(a:current_file)
-    return v:toTestFile(a:current_file)
+function! s:SwitchCoffeeFile(current_file)
+  if s:isSource(a:current_file)
+    return s:toTestFile(a:current_file)
   endif
 
-  if v:isTest(a:current_file)
-    return v:toSourceFile(a:current_file)
+  if s:isTest(a:current_file)
+    return s:toSourceFile(a:current_file)
   endif
 
-  if v:isJavascript(a:current_file)
-    return v:JavascriptToSource(a:current_file)
+  if s:isJavascript(a:current_file)
+    return s:JavascriptToSource(a:current_file)
   endif
 
   return " "
 endfunction
 
-function! v:toTestFile(file)
+function! s:toTestFile(file)
   return substitute(a:file, "app/scripts", g:test_directory, '')
 endfunction
 
-function! v:toSourceFile(file)
+function! s:toSourceFile(file)
   return substitute(a:file, g:test_directory, "app/scripts", '')
 endfunction
 
-function! v:JavascriptToSource(file)
+function! s:JavascriptToSource(file)
   let tmp_filename = substitute(a:file, ".tmp", "app", '')
   return substitute(tmp_filename, ".js", ".coffee", '')
 endfunction
 
-function! v:SourceToJavascript(file)
+function! s:SourceToJavascript(file)
   let tmp_filename = substitute(a:file, "app", ".tmp", '')
   return substitute(tmp_filename, ".coffee", ".js", '')
 endfunction
 
-function! v:TestToJavascript(file)
+function! s:TestToJavascript(file)
   let new_filename = substitute(a:file, "test", ".tmp/scripts", '')
   return substitute(new_filename, ".coffee", ".js", '')
 endfunction
 
-function! v:isTest(filename)
-  if v:isCoffeeTest(a:filename)
+function! s:isTest(filename)
+  if s:isCoffeeTest(a:filename)
     return 1
   else
     return 0
   endif
 endfunction
 
-function! v:isCoffeeTest(filename)
+function! s:isCoffeeTest(filename)
   return a:filename =~ "^". g:test_directory . "/" || a:filename =~ "/" . g:test_directory
 endfunction
 
-function! v:isSource(filename)
-  if v:isCoffeeSource(a:filename)
+function! s:isSource(filename)
+  if s:isCoffeeSource(a:filename)
     return 1
   else
     return 0
   endif
 endfunction
 
-function! v:isCoffeeSource(filename)
+function! s:isCoffeeSource(filename)
   return a:filename =~ "^app/" || a:filename =~ "/app"
 endfunction
 
-function! v:isJavascript(filename)
+function! s:isJavascript(filename)
   if a:filename =~ "^.tmp/" || a:filename =~ "/.tmp"
     return 1
   else
